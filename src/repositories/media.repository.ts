@@ -69,29 +69,23 @@ export class MediaRepository extends Repository {
     return body;
   }
 
-  public async delete({
-    mediaId,
-    mediaType = 'PHOTO',
-  }: {
-    mediaId: string;
-    mediaType?: 'PHOTO' | 'VIDEO' | 'CAROUSEL';
-  }) {
-    const { body } = await this.client.request.send({
-      url: `/api/v1/media/${mediaId}/delete/`,
-      method: 'POST',
-      qs: {
-        media_type: mediaType,
-      },
-      form: this.client.request.sign({
-        igtv_feed_preview: false,
-        media_id: mediaId,
-        _csrftoken: this.client.state.cookieCsrfToken,
-        _uid: this.client.state.cookieUserId,
-        _uuid: this.client.state.uuid,
-      }),
-    });
-    return body;
-  }
+    async delete( mediaId, mediaType, ) {
+        const { body } = await this.client.request.send({
+            url: `/api/v1/media/${mediaId}/delete/`,
+            method: 'POST',
+            qs: {
+                media_type: 1,
+            },
+            form: this.client.request.sign({
+                igtv_feed_preview: false,
+                media_id: mediaId,
+                _csrftoken: this.client.state.cookieCsrfToken,
+                _uid: this.client.state.cookieUserId,
+                _uuid: this.client.state.uuid,
+            }),
+        });
+        return body;
+    }
 
   private async likeAction(options: MediaLikeOrUnlikeOptions) {
     const signedFormData = this.client.request.sign({
